@@ -4,10 +4,8 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
 class MathUtilsTest {
 
@@ -31,20 +29,34 @@ class MathUtilsTest {
         System.out.println("Cleaning up after each method");
     }
 
+    @Nested
+    @DisplayName("Testing add methods")  // gives a clear indicator of what the test method is doing
+    class AddTest {
 
-    @Test
-    @EnabledOnOs(OS.LINUX)
-    @DisplayName("Testing add method")  // gives a clear indicator of what the test method is doing
-    void testAdd() {
-        // fail("Not yet implemented");
-        // System.out.println("This test ran");
-        int expected = 5;
-        int a = 2, b = 3;
-        int actual = mathUtils.add(a,b);
-        // always good to put in a message when asserting something - better readability
-        assertEquals(expected, actual, "The add method should sum up two numbers.");
+        @Test
+        @DisplayName("Testing add method: +")  // gives a clear indicator of what the test method is doing
+        void testAddPositive() {
+            assertEquals(2, mathUtils.add(1, 1), "The add method should sum up two +ve numbers.");
+        }
+
+        @Test
+        @DisplayName("Testing add method: -")  // gives a clear indicator of what the test method is doing
+        void testAddNegative() {
+            assertEquals(-2, mathUtils.add(-1, -1), "The add method should sum up two -ve numbers.");
+        }
     }
 
+    @Test
+    @DisplayName("multiply method")
+    void testMultiply() {
+        // assertEquals(6, mathUtils.multiply(2, 3), "should return the right product");
+        // runs thru all of these asserts and fails if any one of them fails
+        assertAll(
+                () -> assertEquals(6, mathUtils.multiply(2, 3)),
+                () -> assertEquals(0, mathUtils.multiply(2, 0)),
+                () -> assertEquals(-2, mathUtils.multiply(2, -1))
+        );
+    }
 
     @Test
     @DisplayName("Testing the divide method.")
